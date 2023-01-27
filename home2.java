@@ -3,7 +3,10 @@ package JA_home2;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.Format;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -98,18 +101,37 @@ public class home2 {
                     }
                 }
             }
-        } 
+        }
+        sc.close(); 
     }
 
 
     public static void task2() {
-        System.out.println("Написать метод(ы), который распарсит json и, используя StringBuilder," + 
+        System.out.println("Написать метод(ы), который распарсит файл с данными и, используя StringBuilder," + 
         " создаст строки вида: Студент [фамилия] получил [оценка] по предмету [предмет].");
+        // "фамилия":"Иванов","оценка":"5","предмет":"Математика"
         String result = read_File("D:/JavaProj/JA_home2/stud.txt");
-        // String[] array = result.split(":");
-        // System.out.println(Arrays.toString(array));
-        result = result.replaceAll("[{}]", "");
-        System.out.println(result);
+
+        result = result.replaceAll("\"", ""); // Убираем лишние символы
+        result = result.replaceAll(":", " ");
+        result = result.replaceAll(",", " ");
+
+        String[] arr = result.split(" "); // Сплитим строку в массив
+        StringBuilder show_str = new StringBuilder();
+
+        for (int i = 0; i < arr.length; i++){
+            if (arr[i].equals("фамилия")){
+                show_str.append("Студент " + arr[i+1] + " ");
+            } else if (arr[i].equals("оценка")){
+                show_str.append("получил " + arr[i+1] + " ");
+            } else if (arr[i].equals("предмет")){
+                show_str.append("по предмету " + arr[i+1] + "\n");
+            }
+        }
+
+        System.out.println(show_str);
+
+        
 
     }
 
@@ -118,11 +140,12 @@ public class home2 {
         try (FileReader reader = new FileReader(file_name)) {
             Scanner scanner = new Scanner(reader);
             while (scanner.hasNextLine()) {
-                string_Result += scanner.nextLine();
+                string_Result += scanner.nextLine() + " ";
             }
             scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ошибка! Что-то пошло не так");
         }
         return string_Result;
     }
