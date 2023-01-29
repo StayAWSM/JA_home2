@@ -3,10 +3,7 @@ package JA_home2;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.Format;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -48,21 +45,23 @@ public class home2 {
             + "\n\t5 - Вернуться назад, в главное меню"
             + "\n\t0 - Выход";
 
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        while (true){
+        while (true) {
             System.out.println(TASK_MENU);
             int num = sc.nextInt();
-            switch(num){
-                // case 1: task1();
-                //     break;
-                case 2: task2();
+            switch (num) {
+                case 1:
+                    task1();
                     break;
-                // case 3: task3();
-                //     break;
+                case 2:
+                    task2();
+                    break;
+                case 3:
+                    task3();
+                    break;
                 // case 4: task4();
-                //     break;
+                // break;
                 case 0:
                     System.exit(0);
                 default:
@@ -78,37 +77,35 @@ public class home2 {
         int num = sc.nextInt();
         Random rnd = new Random();
         int[] arr = new int[num];
-        for (int i = 0; i < arr.length; i++){
-            arr[i] = rnd.nextInt(5*num);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = rnd.nextInt(5 * num);
         }
         System.out.println(Arrays.toString(arr));
 
-        for (int j = 0; j < arr.length-1; j++){
-            for (int i = 0; i < arr.length-1; i++){
-                if ( arr[i] > arr[i+1] ){
+        for (int j = 0; j < arr.length - 1; j++) {
+            for (int i = 0; i < arr.length - 1; i++) {
+                if (arr[i] > arr[i + 1]) {
                     int temp = arr[i];
-                    arr[i] = arr[i+1];
-                    arr[i+1] = temp;
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
                     System.out.println(Arrays.toString(arr));
                     String text = Arrays.toString(arr);
                     try {
                         FileWriter writer = new FileWriter("D:/JavaProj/JA_home2/log.txt", true);
                         writer.write(text + "\n");
                         writer.close();
-                    }
-                    catch (IOException ex){
+                    } catch (IOException ex) {
                         System.out.println(ex.getMessage());
                     }
                 }
             }
         }
-        sc.close(); 
+        sc.close();
     }
 
-
     public static void task2() {
-        System.out.println("Написать метод(ы), который распарсит файл с данными и, используя StringBuilder," + 
-        " создаст строки вида: Студент [фамилия] получил [оценка] по предмету [предмет].");
+        System.out.println("Написать метод(ы), который распарсит файл с данными и, используя StringBuilder," +
+                " создаст строки вида: Студент [фамилия] получил [оценка] по предмету [предмет].");
         // "фамилия":"Иванов","оценка":"5","предмет":"Математика"
         String result = read_File("D:/JavaProj/JA_home2/stud.txt");
 
@@ -119,21 +116,45 @@ public class home2 {
         String[] arr = result.split(" "); // Сплитим строку в массив
         StringBuilder show_str = new StringBuilder();
 
-        for (int i = 0; i < arr.length; i++){
-            if (arr[i].equals("фамилия")){
-                show_str.append("Студент " + arr[i+1] + " ");
-            } else if (arr[i].equals("оценка")){
-                show_str.append("получил " + arr[i+1] + " ");
-            } else if (arr[i].equals("предмет")){
-                show_str.append("по предмету " + arr[i+1] + "\n");
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals("фамилия")) {
+                show_str.append("Студент " + arr[i + 1] + " ");
+            } else if (arr[i].equals("оценка")) {
+                show_str.append("получил " + arr[i + 1] + " ");
+            } else if (arr[i].equals("предмет")) {
+                show_str.append("по предмету " + arr[i + 1] + "\n");
             }
         }
 
         System.out.println(show_str);
-
-        
-
     }
+
+    public static void task3() {
+        System.out.println("Напишите метод, который принимает на вход строку (String) и определяет" +
+                "\nявляется ли строка палиндромом (возвращает boolean значение)");
+        System.out.print("Введите строку или число: "); // Принимаем строку с клавиатуры
+        Scanner s = new Scanner(System.in);
+        String pal = s.next();
+        isPalindrome(pal);
+    }
+
+    public static String reverseString(String s){
+        String r = "";
+        for (int i = s.length() - 1; i >= 0; --i)
+            r += s.charAt(i);
+        return r;
+    }
+
+    public static Boolean isPalindrome(String s) {
+        if(s.equals(reverseString(s))){
+            System.out.println("Полиндром");
+        }else{
+            System.out.println("Не полиндром");
+        }
+        return s.equals(reverseString(s));
+    }
+
+        // s.close();
 
     static String read_File(String file_name) {
         String string_Result = new String();
@@ -149,8 +170,4 @@ public class home2 {
         }
         return string_Result;
     }
-        
 }
-
-
-
